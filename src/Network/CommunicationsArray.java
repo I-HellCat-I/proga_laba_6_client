@@ -26,7 +26,7 @@ public class CommunicationsArray {
         this.host = host;
         this.sendPort = sendPort;
         this.incomePort = incomePort;
-        this.server = new Socket(InetAddress.getLocalHost(), incomePort);
+        this.server = new Socket("localhost", 3214);
         inputStream = new DataInputStream(server.getInputStream());
         mapper = JsonMapper.builder().findAndAddModules().build();
     }
@@ -38,7 +38,7 @@ public class CommunicationsArray {
 
     public <T> void sendMessage(T toSend) throws IOException {
         byte[] bytes = mapper.writeValueAsBytes(toSend);
-        DatagramPacket packet = new DatagramPacket(bytes, bytes.length, host, sendPort);
+        DatagramPacket packet = new DatagramPacket(bytes, bytes.length, InetAddress.getByName("localhost"), 3213);
         datagramSocket.send(packet);
     }
 
