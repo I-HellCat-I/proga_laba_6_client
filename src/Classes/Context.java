@@ -1,0 +1,51 @@
+package Classes;
+
+import CommandExecution.CommandManager;
+import CommandExecution.Interactor;
+import Network.CommunicationsArray;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.IOException;
+import java.lang.ref.Cleaner;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.time.ZonedDateTime;
+
+/**
+ * Общий контекст, содержит ссылки на переменные, используемые в разных частях программы, ибо мне лень их передавать
+ **/
+@Getter
+public class Context {
+
+    protected final CommunicationsArray communicationsArray;
+    protected final Interactor interactor = new Interactor(this);
+    protected final String pathVar = "HOME";
+    protected boolean exitCommandUsed = false;
+    protected final ZonedDateTime initDate = ZonedDateTime.now();
+    protected final CommandManager commandManager = new CommandManager(this);
+    @Setter
+    protected int maxRecursionDepth = 100;
+
+    public Context() {
+        try {
+            int incomePort = 3124;
+            int sendPort = 3123;
+            communicationsArray = new CommunicationsArray(this, InetAddress.getLocalHost(), sendPort, incomePort);
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public String getPath() {
+        return System.getenv(pathVar) + "/saved.xml";
+    }
+
+    public void setExitCommandUsed() {
+        exitCommandUsed = true;
+    }
+
+}
