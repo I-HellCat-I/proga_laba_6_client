@@ -11,6 +11,7 @@ import java.lang.ref.Cleaner;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 
 /**
  * Общий контекст, содержит ссылки на переменные, используемые в разных частях программы, ибо мне лень их передавать
@@ -29,10 +30,10 @@ public class Context {
 
     public Context() {
         try {
-            int incomePort = 3124;
-            int sendPort = 3123;
-            communicationsArray = new CommunicationsArray(this, InetAddress.getLocalHost(), sendPort, incomePort);
+            int incomePort = 3123;
+            communicationsArray = new CommunicationsArray(this, InetAddress.getLocalHost(), incomePort);
         } catch (SocketException e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);

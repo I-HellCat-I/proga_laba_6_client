@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -57,6 +58,7 @@ public class CommandManager {
             return (context.getCommunicationsArray().getMessage(String.class));
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException | IOException e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e.getMessage());
         }
     }
