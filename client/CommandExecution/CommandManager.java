@@ -2,10 +2,13 @@ package CommandExecution;
 
 import Classes.Context;
 import CommandExecution.Commands.*;
+import Network.Exceptions.ServerNotRespondingException;
 import lombok.Getter;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.SocketTimeoutException;
+import java.rmi.server.ServerNotActiveException;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -56,11 +59,14 @@ public class CommandManager {
                 return commandAnswer;
             }
             return (context.getCommunicationsArray().getMessage(String.class));
+        }catch (SocketTimeoutException e){
+            return "Сервер не отвечает. Уведомите администратора сервера.";
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException | IOException e) {
             System.out.println(Arrays.toString(e.getStackTrace()));
             throw new RuntimeException(e.getMessage());
         }
+
     }
 
 }

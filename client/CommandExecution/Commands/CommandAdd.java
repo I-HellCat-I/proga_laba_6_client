@@ -17,6 +17,7 @@ public class CommandAdd extends Command {
 
     @Override
     public String execute() throws IOException {
+        context.getCommunicationsArray().handshake();
         try{
             SendedFlatUpdateRecord toAdd = new SendedFlatUpdateRecord(-1, context.getInteractor().inputFlat(false));
             if (toAdd != null) {

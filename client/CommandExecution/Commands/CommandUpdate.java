@@ -15,8 +15,19 @@ public class CommandUpdate extends Command {
 
     @Override
     public String execute() throws IOException {
-        int id = Integer.parseInt(args[0]);
-        context.getCommunicationsArray().sendMessage(new CommandMessage(this.getClass().getName(),-1, new SendedFlatUpdateRecord(id, context.getInteractor().inputFlat(true))));
+        int id;
+        try {
+            id = Integer.parseInt(args[0]);
+        } catch (NumberFormatException e){
+            return "То, что вы ввели - не число";
+        }
+        context.getCommunicationsArray().sendMessage(new CommandMessage("CommandExecution.Commands.CommandCheckIfExists", id, null));
+        boolean ans = context.getCommunicationsArray().getMessage(boolean.class);
+        if (!ans){
+            return "Квартиры с таким id не найдено";
+        }
+        context.getCommunicationsArray().sendMessage(new CommandMessage(this.getClass().getName(),-1,
+                new SendedFlatUpdateRecord(id, context.getInteractor().inputFlat(true))));
         return context.getCommunicationsArray().getMessage(String.class);
     }
     public static String description(){

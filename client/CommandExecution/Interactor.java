@@ -44,6 +44,7 @@ public class Interactor {
             scanner = scannerStack.get(0);
             scannerStack.clear();
             nowRecursion = 0;
+            executingFilenames.clear();
         }
     }
 
@@ -75,6 +76,7 @@ public class Interactor {
         if (nowRecursion > context.getMaxRecursionDepth()) {
             throw new RuntimeException("Вы превысили максимальную допустимую глубину рекурсии: " + context.getMaxRecursionDepth());
         }
+        executingFilenames.add(filename);
         nowRecursion++;
         scannerStack.add(scanner);
         try (BufferedInputStream inStream = new BufferedInputStream(new FileInputStream(filename))) {
